@@ -1,13 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import "./App.css";
 import { z } from "zod";
+import "./App.css";
+import { Todo } from "./components/Todo";
+import { todoSchema } from "./schemas";
 
-export const todoSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  description: z.string().optional(),
-  completed: z.boolean(),
-});
+async function fetchTodos() {
+  const data = await fetch("https://example.com/todos").then((res) =>
+    res.json()
+  );
+  return z.array(todoSchema).parse(data);
+}
 
 export type Todo = z.infer<typeof todoSchema>;
 
@@ -18,12 +20,7 @@ function App() {
     error,
   } = useQuery<Todo[]>({
     queryKey: ["todos"],
-    queryFn: async () => {
-      const data = await fetch("https://example.com/todos").then((res) =>
-        res.json()
-      );
-      return z.array(todoSchema).parse(data);
-    },
+    queryFn: fetchTodos,
   });
 
   if (isLoading && !todos) {
@@ -48,15 +45,7 @@ function App() {
       <h1>Tanstack Todos</h1>
       <div className="card">
         {todos.map((todo) => {
-          return (
-            <div key={todo.id} className="todo">
-              <input type="checkbox" checked={todo.completed} />
-              <div>
-                <h2>{todo.title}</h2>
-                {todo.description && <p>{todo.description}</p>}
-              </div>
-            </div>
-          );
+          return <Todo key={todo.id} todo={todo} />;
         })}
       </div>
     </>

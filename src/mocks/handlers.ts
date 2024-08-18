@@ -27,4 +27,19 @@ export const handlers = [
     // ...and respond to them using this JSON response.
     return HttpResponse.json(todos);
   }),
+
+  http.put(`${BASE_URL}/todos/:id`, ({ params }) => {
+    const { id } = params;
+
+    const existingTodoIdx = todos.findIndex((todo) => todo.id === id);
+    if (existingTodoIdx === -1) {
+      return new HttpResponse(null, { status: 404 });
+    }
+    const existingTodo = todos[existingTodoIdx];
+
+    const updatedTodo = { ...existingTodo, completed: !existingTodo.completed };
+    todos[existingTodoIdx] = updatedTodo;
+
+    return HttpResponse.json(updatedTodo);
+  }),
 ];
