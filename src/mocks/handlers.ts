@@ -1,7 +1,8 @@
 import { http, HttpResponse } from "msw";
-import { Todo } from "../App";
+import { z } from "zod";
+import { Todo } from "../components/TodosList";
 
-const todos: Todo[] = [
+let todos: Todo[] = [
   {
     id: "1",
     title: "Buy milk",
@@ -42,4 +43,21 @@ export const handlers = [
 
     return HttpResponse.json(updatedTodo);
   }),
+
+  http.post(`${BASE_URL}/todos`, async ({ request }) => {
+    const { title, description } = z
+      .object({ title: z.string(), description: z.string().optional() })
+      .parse(await request.json());
+
+    const newTodo: Todo = {
+      id: String(todos.length + 1),
+      title,
+      description,
+      completed: false,
+    };
+    todos = [newTodo, ...todos];
+
+    return HttpResponse.json(todos);
+  }),
+
 ];

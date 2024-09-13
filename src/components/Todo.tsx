@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Todo } from "../App";
 import { todoSchema } from "../schemas";
+import type { Todo } from "./TodosList";
 
 async function toggleTodo(id: string) {
   const data = await fetch(`https://example.com/todos/${id}`, {
@@ -20,14 +20,18 @@ export function Todo({ todo }: { todo: Todo }) {
   });
 
   return (
-    <div key={todo.id} className="todo" onClick={() => mutate()}>
-      <input type="checkbox" checked={todo.completed} />
-      <div>
-        <h2>{todo.title}</h2>
-        {todo.description && <p>{todo.description}</p>}
-      </div>
+    <div
+      key={todo.id}
+      className="grid grid-cols-[5%_95%]"
+      onClick={() => mutate()}
+    >
+      <input type="checkbox" defaultChecked={todo.completed} className="" />
+      <h2 className="font-semibold text-lg">{todo.title}</h2>
+      {todo.description && <p className="col-start-2">{todo.description}</p>}
       {isError && (
-        <small className=" text-red-500">Failed to toggle todo</small>
+        <small className="col-start-2 text-red-500">
+          Failed to toggle todo
+        </small>
       )}
     </div>
   );
