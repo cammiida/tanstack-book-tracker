@@ -60,4 +60,16 @@ export const handlers = [
     return HttpResponse.json(todos);
   }),
 
+  http.delete(`${BASE_URL}/todos/:id`, ({ params }) => {
+    const { id } = params;
+
+    const existingTodoIdx = todos.findIndex((todo) => todo.id === id);
+    if (existingTodoIdx === -1) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    todos = todos.filter((todo) => todo.id !== id);
+
+    return HttpResponse.json(todos);
+  }),
 ];

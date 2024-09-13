@@ -22,7 +22,7 @@ export function Todo({ todo }: { todo: Todo }) {
   return (
     <div
       key={todo.id}
-      className="grid grid-cols-[5%_95%]"
+      className="grid grid-cols-[5%_95%] cursor-pointer"
       onClick={() => mutate()}
     >
       <input type="checkbox" defaultChecked={todo.completed} className="" />

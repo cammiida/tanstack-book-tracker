@@ -3,13 +3,7 @@ import { z } from "zod";
 import { todoSchema } from "../schemas";
 import { Todo } from "./Todo";
 import { NewTodo } from "./NewTodo";
-
-async function fetchTodos() {
-  const data = await fetch("https://example.com/todos").then((res) =>
-    res.json()
-  );
-  return z.array(todoSchema).parse(data);
-}
+import { fetchTodos } from "../utils/queries";
 
 export type Todo = z.infer<typeof todoSchema>;
 
