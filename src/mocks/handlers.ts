@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { z } from "zod";
 import { Todo } from "../routes/Todos";
+import { BASE_URL } from "../utils/todoQueries";
 
 let todos: Todo[] = [
   {
@@ -19,8 +20,6 @@ let todos: Todo[] = [
     completed: false,
   },
 ];
-
-const BASE_URL = "https://example.com";
 
 export const handlers = [
   http.get(`${BASE_URL}/todos`, () => {

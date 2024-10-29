@@ -20,23 +20,21 @@ export const todoQueries = {
     }),
 };
 
+export const BASE_URL = "https://example.com";
+
 export async function fetchTodo(id: number) {
-  const data = await fetch(`https://example.com/todos/${id}`).then((res) =>
-    res.json()
-  );
+  const data = await fetch(`${BASE_URL}/todos/${id}`).then((res) => res.json());
 
   return todoSchema.parse(data);
 }
 
 export async function fetchTodos() {
-  const data = await fetch("https://example.com/todos").then((res) =>
-    res.json()
-  );
+  const data = await fetch(`${BASE_URL}/todos`).then((res) => res.json());
   return z.array(todoSchema).parse(data);
 }
 
 export async function toggleTodo(id: string) {
-  const data = await fetch(`https://example.com/todos/${id}`, {
+  const data = await fetch(`${BASE_URL}/todos/${id}`, {
     method: "PUT",
   }).then((res) => res.json());
   return todoSchema.parse(data);
