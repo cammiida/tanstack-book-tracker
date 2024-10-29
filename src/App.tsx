@@ -1,16 +1,25 @@
-import TodosCounter from "./components/TodosCounter";
-import { TodosList } from "./components/TodosList";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./routes/Home";
+import Root from "./routes/Root";
+import Todos from "./routes/Todos";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    children: [
+      { element: <Home />, index: true },
+      { path: "/todos", element: <Todos /> },
+    ],
+  },
+]);
 
 function App() {
   return (
-    <>
-      <div className="float-right p-8">
-        <TodosCounter />
-      </div>
-      <div className=" w-2/3 max-w-5xl min-w-min h-screen mx-auto py-10">
-        <TodosList />
-      </div>
-    </>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
   );
 }
 

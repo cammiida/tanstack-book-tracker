@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { newTodoSchema } from "../schemas";
-import { Todo } from "./TodosList";
 import { useRef } from "react";
+import { Todo } from "../routes/Todos";
 
 type NewTodo = Pick<Todo, "title" | "description">;
 
@@ -18,6 +18,7 @@ async function createTodo(newTodo: NewTodo) {
 export function NewTodo() {
   const formRef = useRef<HTMLFormElement>(null);
   const queryClient = useQueryClient();
+
   const { mutate, error } = useMutation({
     mutationFn: createTodo,
     onSuccess: () => {
@@ -46,8 +47,6 @@ export function NewTodo() {
     if (newTodo.success) {
       mutate(newTodo.data);
     }
-
-    return false;
   }
 
   return (

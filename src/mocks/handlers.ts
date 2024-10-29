@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { z } from "zod";
-import { Todo } from "../components/TodosList";
+import { Todo } from "../routes/Todos";
 
 let todos: Todo[] = [
   {
@@ -23,10 +23,19 @@ let todos: Todo[] = [
 const BASE_URL = "https://example.com";
 
 export const handlers = [
-  // Intercept "GET https://example.com/user" requests...
   http.get(`${BASE_URL}/todos`, () => {
-    // ...and respond to them using this JSON response.
     return HttpResponse.json(todos);
+  }),
+
+  http.get(`${BASE_URL}/todos/:id`, ({ params }) => {
+    const { id } = params;
+
+    const todo = todos.find((todo) => todo.id === id);
+    if (!todo) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    return HttpResponse.json(todo);
   }),
 
   http.put(`${BASE_URL}/todos/:id`, ({ params }) => {
