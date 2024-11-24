@@ -3,9 +3,9 @@ import { Navbar } from "../components/Navbar";
 
 export default function Root() {
   return (
-    <div className="flex w-screen">
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <div className="w-full max-w-5xl min-w-min min-h-screen mx-auto p-10">
+      <div className="container mx-auto p-4">
         <Outlet />
       </div>
     </div>
