@@ -22,8 +22,11 @@ export type BookReader = {
   comment?: UserBook["comment"];
 };
 
-export async function fetchBooks(): Promise<Book[]> {
-  const response = await fetch("/api/books");
+export async function fetchBooks(searchQuery?: string): Promise<Book[]> {
+  const searchParams = searchQuery
+    ? new URLSearchParams({ searchQuery })
+    : new URLSearchParams();
+  const response = await fetch("/api/books?" + searchParams.toString());
   return await response.json();
 }
 

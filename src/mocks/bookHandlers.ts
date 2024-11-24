@@ -5,8 +5,19 @@ import { users } from "./userHandlers";
 
 export const bookHandlers: HttpHandler[] = [
   // Get all books
-  http.get("/api/books", () => {
-    return HttpResponse.json(books);
+  http.get("/api/books", ({ request }) => {
+    const url = new URL(request.url);
+    const searchQuery = url.searchParams.get("searchQuery");
+
+    const filteredBooks = searchQuery
+      ? books.filter(
+          (book) =>
+            book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            book.author.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : books;
+
+    return HttpResponse.json(filteredBooks);
   }),
 
   // Get a single book
