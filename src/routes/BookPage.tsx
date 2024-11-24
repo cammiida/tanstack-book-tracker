@@ -24,7 +24,7 @@ export default function BookPage() {
   });
 
   const readersQuery = useQuery({
-    queryKey: ["books", "readers", bookId],
+    queryKey: ["books", bookId, "readers"],
     queryFn: bookId ? () => fetchBookReaders(bookId) : skipToken,
   });
 
@@ -93,7 +93,7 @@ function BookStatusSelector({ bookId }: { bookId: string }) {
   const queryClient = useQueryClient();
 
   const { data: currentUser } = useQuery({
-    queryKey: ["user", CURRENT_USER_ID],
+    queryKey: ["users", CURRENT_USER_ID],
     queryFn: fetchCurrentUser,
     select: (data) => data?.books.find((book) => book.bookId === bookId),
   });

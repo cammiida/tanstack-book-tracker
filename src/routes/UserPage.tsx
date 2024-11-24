@@ -8,17 +8,17 @@ export default function UserPage() {
   const { userId } = useParams<{ userId: string }>();
 
   const userQuery = useQuery({
-    queryKey: ["user", userId],
+    queryKey: ["users", userId],
     queryFn: userId ? () => fetchUser(userId) : skipToken,
   });
 
   const booksQuery = useQuery({
-    queryKey: ["books", userId],
+    queryKey: ["users", userId, "books"],
     queryFn: userId ? () => fetchUserBooks(userId) : skipToken,
   });
 
   const friendsQuery = useQuery({
-    queryKey: ["friends", userId],
+    queryKey: ["users", userId, "friends"],
     queryFn: userId ? () => fetchFriends(userId) : skipToken,
   });
 

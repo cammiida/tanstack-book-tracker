@@ -6,7 +6,7 @@ import { CURRENT_USER_ID } from "../App";
 
 export default function ProfilePage() {
   const currentUserQuery = useQuery({
-    queryKey: ["user", CURRENT_USER_ID],
+    queryKey: ["users", CURRENT_USER_ID],
     queryFn: fetchCurrentUser,
   });
 
@@ -18,7 +18,7 @@ export default function ProfilePage() {
   });
 
   const friendsQuery = useQuery({
-    queryKey: ["friends", userId],
+    queryKey: ["users", userId, "friends"],
     queryFn: userId ? () => fetchFriends(userId) : skipToken,
   });
 
