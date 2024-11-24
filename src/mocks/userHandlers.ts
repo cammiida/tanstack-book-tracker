@@ -21,10 +21,8 @@ export const userHandlers: HttpHandler[] = [
   }),
 
   // get all books for a specific user
-  http.get("/api/users/:id/books", (req) => {
-    console.log("req", req);
-
-    const { id } = req.params;
+  http.get("/api/users/:id/books", ({ params }) => {
+    const { id } = params;
 
     const user = users.find((user) => user.id === id);
     if (!user) {
@@ -42,8 +40,6 @@ export const userHandlers: HttpHandler[] = [
           return { ...userBook, ...book };
         })
         .filter((it) => it != null) ?? [];
-
-    console.log("userBooks", userBooks);
 
     return HttpResponse.json(userBooks);
   }),

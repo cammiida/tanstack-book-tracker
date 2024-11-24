@@ -76,8 +76,6 @@ export default function BookPage() {
 }
 
 function BookRating({ ratings }: { ratings: number[] }) {
-  console.log(ratings);
-
   const rating: number =
     ratings.length === 0
       ? 0
@@ -85,7 +83,6 @@ function BookRating({ ratings }: { ratings: number[] }) {
         ratings.length;
 
   const fullStars = Math.floor(rating);
-  console.log(fullStars);
 
   const partialStar = rating % 1;
   const emptyStars = 5 - Math.ceil(rating);
