@@ -49,3 +49,23 @@ export async function fetchUserBooks(id: string): Promise<(UserBook & Book)[]> {
   const response = await fetch(`/api/users/${id}/books`);
   return await response.json();
 }
+
+export async function updateUserBookStatus({
+  userId,
+  bookId,
+  status,
+}: {
+  userId: string;
+  bookId: string;
+  status: UserBookStatus;
+}): Promise<UserBook> {
+  const response = await fetch(`/api/users/${userId}/books/${bookId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status }),
+  });
+
+  return await response.json();
+}

@@ -1,19 +1,30 @@
 import { StarIcon as Star } from "@navikt/aksel-icons";
-import { skipToken, useQuery } from "@tanstack/react-query";
+import {
+  skipToken,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
+import { CURRENT_USER_ID } from "../App";
 import { BookReader, fetchBook, fetchBookReaders } from "../lib/books";
-import { USER_BOOK_STATUSES } from "../lib/users";
+import {
+  fetchCurrentUser,
+  updateUserBookStatus,
+  USER_BOOK_STATUSES,
+  UserBookStatus,
+} from "../lib/users";
 
 export default function BookPage() {
   const { bookId } = useParams<{ bookId: string }>();
 
   const bookQuery = useQuery({
-    queryKey: ["book", bookId],
+    queryKey: ["books", bookId],
     queryFn: bookId ? () => fetchBook(bookId) : skipToken,
   });
 
   const readersQuery = useQuery({
-    queryKey: ["book", "readers", bookId],
+    queryKey: ["books", "readers", bookId],
     queryFn: bookId ? () => fetchBookReaders(bookId) : skipToken,
   });
 
@@ -38,7 +49,10 @@ export default function BookPage() {
   return (
     <div className="container mx-auto p-4">
       <div className="mb-4 flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">{book?.title}</h1>
+        <div className="flex gap-4">
+          <h1 className="text-3xl font-bold">{book?.title}</h1>
+          {book && <BookStatusSelector bookId={book.id} />}
+        </div>
         <BookRating ratings={ratings} />
       </div>
       <p className="text-xl text-gray-600 mb-4">by {book?.author}</p>
@@ -71,6 +85,59 @@ export default function BookPage() {
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function BookStatusSelector({ bookId }: { bookId: string }) {
+  const queryClient = useQueryClient();
+
+  const { data: currentUser } = useQuery({
+    queryKey: ["user", CURRENT_USER_ID],
+    queryFn: fetchCurrentUser,
+    select: (data) => data?.books.find((book) => book.bookId === bookId),
+  });
+
+  const { mutate: updateCurrentUserBookStatus } = useMutation({
+    mutationFn: async (newStatus: UserBookStatus) => {
+      // Do the update
+      const updatedBook = await updateUserBookStatus({
+        userId: CURRENT_USER_ID,
+        bookId,
+        status: newStatus,
+      });
+
+      console.log(updatedBook);
+
+      // Invalidate queries
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+      queryClient.invalidateQueries({ queryKey: ["users", CURRENT_USER_ID] });
+    },
+  });
+
+  const bookStatus = currentUser?.status;
+
+  return (
+    <div>
+      <select
+        id="countries"
+        value={bookStatus}
+        onChange={(e) => {
+          updateCurrentUserBookStatus(e.target.value as UserBookStatus);
+        }}
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      >
+        <option>No status</option>
+        {USER_BOOK_STATUSES.map((status) => (
+          <option selected={bookStatus === status} value={status} key={status}>
+            {status
+              .replace(/([A-Z])/g, " $1")
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

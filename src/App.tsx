@@ -8,6 +8,8 @@ import UserPage from "./routes/UserPage";
 import ProfilePage from "./routes/ProfilePage";
 import RootLayout from "./routes/layout/RootLayout";
 
+export const CURRENT_USER_ID = "1";
+
 function App() {
   const queryClient = new QueryClient();
 

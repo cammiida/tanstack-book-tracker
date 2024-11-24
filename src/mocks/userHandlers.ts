@@ -1,6 +1,7 @@
 import { http, HttpHandler, HttpResponse } from "msw";
 import { books } from "./bookHandlers";
-import { User } from "../lib/users";
+import { User, USER_BOOK_STATUSES, UserBook } from "../lib/users";
+import { z } from "zod";
 
 export const userHandlers: HttpHandler[] = [
   // get all users
@@ -47,6 +48,46 @@ export const userHandlers: HttpHandler[] = [
         .filter((it) => it != null) ?? [];
 
     return HttpResponse.json(userBooks);
+  }),
+
+  // update book status for a specific user
+  http.put("/api/users/:id/books/:bookId", async ({ params, request }) => {
+    const { id, bookId } = params;
+    const body = await request.json();
+    console.log(body);
+
+    const parsedBody = z
+      .object({ status: z.enum(USER_BOOK_STATUSES) })
+      .safeParse(body);
+
+    console.log(parsedBody);
+
+    if (!parsedBody.success) {
+      return new HttpResponse(null, { status: 400 });
+    }
+
+    const { status } = parsedBody.data;
+
+    const user = users.find((user) => user.id === id);
+    if (!user) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    const existingUserBookId = user.books.findIndex(
+      (it) => it.bookId === bookId
+    );
+
+    if (existingUserBookId === -1) {
+      const newUserBook: UserBook = { bookId: String(bookId), status };
+      user.books.push(newUserBook);
+
+      return HttpResponse.json(newUserBook, { status: 201 });
+    }
+
+    const updatedUserBook = { ...user.books[existingUserBookId], status };
+    user.books[existingUserBookId] = updatedUserBook;
+
+    return HttpResponse.json(updatedUserBook, { status: 200 });
   }),
 
   // get all friends for a specific user

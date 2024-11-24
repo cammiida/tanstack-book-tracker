@@ -2,10 +2,11 @@ import { skipToken, useQuery } from "@tanstack/react-query";
 import { BookList } from "../components/BookList";
 import FriendsList from "../components/FriendsList";
 import { fetchCurrentUser, fetchFriends, fetchUserBooks } from "../lib/users";
+import { CURRENT_USER_ID } from "../App";
 
 export default function ProfilePage() {
   const currentUserQuery = useQuery({
-    queryKey: ["currentUser"],
+    queryKey: ["user", CURRENT_USER_ID],
     queryFn: fetchCurrentUser,
   });
 
