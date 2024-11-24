@@ -5,8 +5,8 @@ import BookPage from "./routes/BookPage";
 import Home from "./routes/Home";
 import UserListPage from "./routes/UserListPage";
 import UserPage from "./routes/UserPage";
-import RootLayout from "./routes/RootLayout";
 import ProfilePage from "./routes/ProfilePage";
+import RootLayout from "./routes/layout/RootLayout";
 
 function App() {
   const queryClient = new QueryClient();

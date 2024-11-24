@@ -1,6 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
-export function Navbar() {
+export default function RootLayout() {
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+      <div className="container mx-auto p-4">
+        <Outlet />
+      </div>
+    </div>
+  );
+}
+
+function Navbar() {
   return (
     <nav className="bg-blue-600 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
