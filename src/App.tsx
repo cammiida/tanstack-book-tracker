@@ -1,11 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { Navbar } from "./components/Navbar";
+import BookPage from "./routes/BookPage";
 import Home from "./routes/Home";
 import UserListPage from "./routes/UserListPage";
 import UserPage from "./routes/UserPage";
-import BookPage from "./routes/BookPage";
+import RootLayout from "./routes/RootLayout";
 
 function App() {
   const queryClient = new QueryClient();
@@ -13,17 +13,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <div className="min-h-screen bg-gray-100">
-          <Navbar />
-          <div className="container mx-auto p-4">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/users/:userId" element={<UserPage />} />
-              <Route path="/users" element={<UserListPage />} />
-              <Route path="/books/:bookId" element={<BookPage />} />
-            </Routes>
-          </div>
-        </div>
+        <Routes>
+          <Route element={<RootLayout />}>
+            <Route index element={<Home />} />
+            <Route path="users" element={<UserListPage />} />
+            <Route path="users/:userId" element={<UserPage />} />
+            <Route path="books/:bookId" element={<BookPage />} />
+          </Route>
+        </Routes>
       </Router>
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
