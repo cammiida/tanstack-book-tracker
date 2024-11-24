@@ -8,6 +8,11 @@ export const userHandlers: HttpHandler[] = [
     return HttpResponse.json(users);
   }),
 
+  // get current user
+  http.get("/api/me", () => {
+    return HttpResponse.json(users[0]);
+  }),
+
   // get a specific user
   http.get("/api/users/:id", (req) => {
     const { id } = req.params;

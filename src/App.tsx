@@ -6,6 +6,7 @@ import Home from "./routes/Home";
 import UserListPage from "./routes/UserListPage";
 import UserPage from "./routes/UserPage";
 import RootLayout from "./routes/RootLayout";
+import ProfilePage from "./routes/ProfilePage";
 
 function App() {
   const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ function App() {
             <Route path="users" element={<UserListPage />} />
             <Route path="users/:userId" element={<UserPage />} />
             <Route path="books/:bookId" element={<BookPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Routes>
       </Router>

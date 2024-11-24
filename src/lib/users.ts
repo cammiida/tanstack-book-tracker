@@ -2,6 +2,7 @@ import { z } from "zod";
 import { Book } from "./books";
 
 export const USER_BOOK_STATUSES = ["read", "reading", "want-to-read"] as const;
+export type UserBookStatus = (typeof USER_BOOK_STATUSES)[number];
 
 export const userBookSchema = z.object({
   bookId: z.string(),
@@ -21,6 +22,11 @@ export const userSchema = z.object({
 
 export type User = z.infer<typeof userSchema>;
 export type UserBook = z.infer<typeof userBookSchema>;
+
+export async function fetchCurrentUser(): Promise<User> {
+  const response = await fetch("/api/me");
+  return await response.json();
+}
 
 export async function fetchUsers(): Promise<User[]> {
   const response = await fetch("/api/users");

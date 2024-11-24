@@ -14,6 +14,7 @@ export function Navbar() {
           <Link to="/users" className="mr-4">
             All Users
           </Link>
+          <Link to="/profile">My Profile</Link>
         </div>
       </div>
     </nav>
