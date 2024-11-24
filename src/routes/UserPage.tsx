@@ -26,15 +26,7 @@ export default function UserPage() {
     return <div className="text-center mt-8">Loading user...</div>;
   }
 
-  if (booksQuery.isLoading) {
-    return <div className="text-center mt-8">Loading books...</div>;
-  }
-
-  if (friendsQuery.isLoading) {
-    return <div className="text-center mt-8">Loading friends...</div>;
-  }
-
-  if (userQuery.error || friendsQuery.error) {
+  if (userQuery.error) {
     return (
       <div className="text-center mt-8">
         Error:{" "}
