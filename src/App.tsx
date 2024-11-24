@@ -3,16 +3,16 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import BookPage from "./routes/BookPage";
 import Home from "./routes/Home";
+import ProfilePage from "./routes/ProfilePage";
 import UserListPage from "./routes/UserListPage";
 import UserPage from "./routes/UserPage";
-import ProfilePage from "./routes/ProfilePage";
 import RootLayout from "./routes/layout/RootLayout";
 
 export const CURRENT_USER_ID = "1";
 
-function App() {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
