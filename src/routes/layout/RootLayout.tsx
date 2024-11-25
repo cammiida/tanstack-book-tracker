@@ -20,7 +20,7 @@ function Navbar() {
         </Link>
         <div>
           <Link to="/" className="mr-4">
-            Home
+            All books
           </Link>
           <Link to="/users" className="mr-4">
             All Users

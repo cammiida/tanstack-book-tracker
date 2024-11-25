@@ -1,8 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import BookListPage from "./routes/BookListPage";
 import BookPage from "./routes/BookPage";
-import Home from "./routes/Home";
 import ProfilePage from "./routes/ProfilePage";
 import UserListPage from "./routes/UserListPage";
 import UserPage from "./routes/UserPage";
@@ -18,7 +18,7 @@ function App() {
       <Router>
         <Routes>
           <Route element={<RootLayout />}>
-            <Route index element={<Home />} />
+            <Route index element={<BookListPage />} />
             <Route path="users" element={<UserListPage />} />
             <Route path="users/:userId" element={<UserPage />} />
             <Route path="books/:bookId" element={<BookPage />} />

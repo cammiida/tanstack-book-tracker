@@ -3,7 +3,7 @@ import { BookList } from "../components/BookList";
 import { fetchBooks } from "../lib/books";
 import { useState } from "react";
 
-export default function Home() {
+export default function BookListPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const booksQuery = useQuery({
