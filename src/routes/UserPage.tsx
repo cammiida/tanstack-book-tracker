@@ -8,17 +8,17 @@ export default function UserPage() {
   const { userId } = useParams<{ userId: string }>();
 
   const userQuery = useQuery({
-    queryKey: ["users", userId],
+    queryKey: ["users", "detail", userId],
     queryFn: userId ? () => fetchUser(userId) : skipToken,
   });
 
-  const booksQuery = useQuery({
-    queryKey: ["users", userId, "books"],
+  const userBooksQuery = useQuery({
+    queryKey: ["users", "detail", userId, "books"],
     queryFn: userId ? () => fetchUserBooks(userId) : skipToken,
   });
 
   const friendsQuery = useQuery({
-    queryKey: ["users", userId, "friends"],
+    queryKey: ["users", "detail", userId, "friends"],
     queryFn: userId ? () => fetchFriends(userId) : skipToken,
   });
 
@@ -31,7 +31,7 @@ export default function UserPage() {
       <div className="text-center mt-8">
         Error:{" "}
         {userQuery.error?.message ||
-          booksQuery.error?.message ||
+          userBooksQuery.error?.message ||
           friendsQuery.error?.message}
       </div>
     );
@@ -48,7 +48,7 @@ export default function UserPage() {
       <h1 className="text-3xl font-bold mb-4">{user.name}'s Profile</h1>
       <p className="text-gray-600 mb-6">{user.email}</p>
       <h2 className="text-2xl font-semibold mb-4">{user.name}'s Books</h2>
-      <BookList booksQuery={booksQuery} />
+      <BookList booksQuery={userBooksQuery} />
       <h2 className="text-2xl font-semibold mt-8 mb-4">
         {user.name}'s Friends
       </h2>

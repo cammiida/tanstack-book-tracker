@@ -6,19 +6,19 @@ import { CURRENT_USER_ID } from "../App";
 
 export default function ProfilePage() {
   const currentUserQuery = useQuery({
-    queryKey: ["users", CURRENT_USER_ID],
+    queryKey: ["users", "detail", CURRENT_USER_ID],
     queryFn: fetchCurrentUser,
   });
 
   const userId = currentUserQuery.data?.id;
 
-  const booksQuery = useQuery({
-    queryKey: ["books", userId],
+  const userBooksQuery = useQuery({
+    queryKey: ["users", "detail", userId, "books"],
     queryFn: userId ? () => fetchUserBooks(userId) : skipToken,
   });
 
   const friendsQuery = useQuery({
-    queryKey: ["users", userId, "friends"],
+    queryKey: ["users", "detail", userId, "friends"],
     queryFn: userId ? () => fetchFriends(userId) : skipToken,
   });
 
@@ -73,7 +73,7 @@ export default function ProfilePage() {
       <div>
         <h2 className="text-2xl font-semibold mb-4">My Books</h2>
         <ul className="space-y-4">
-          <BookList booksQuery={booksQuery} />
+          <BookList booksQuery={userBooksQuery} />
         </ul>
       </div>
       <div>

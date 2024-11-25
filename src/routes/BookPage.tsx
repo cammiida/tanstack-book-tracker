@@ -19,12 +19,12 @@ export default function BookPage() {
   const { bookId } = useParams<{ bookId: string }>();
 
   const bookQuery = useQuery({
-    queryKey: ["books", bookId],
+    queryKey: ["books", "detail", bookId],
     queryFn: bookId ? () => fetchBook(bookId) : skipToken,
   });
 
   const readersQuery = useQuery({
-    queryKey: ["books", bookId, "readers"],
+    queryKey: ["books", "detail", bookId, "readers"],
     queryFn: bookId ? () => fetchBookReaders(bookId) : skipToken,
   });
 
@@ -93,7 +93,7 @@ function BookStatusSelector({ bookId }: { bookId: string }) {
   const queryClient = useQueryClient();
 
   const { data: currentUser } = useQuery({
-    queryKey: ["users", CURRENT_USER_ID],
+    queryKey: ["users", "detail", CURRENT_USER_ID],
     queryFn: fetchCurrentUser,
     select: (data) => data?.books.find((book) => book.bookId === bookId),
   });
@@ -111,7 +111,7 @@ function BookStatusSelector({ bookId }: { bookId: string }) {
 
       // Invalidate queries
       queryClient.invalidateQueries({ queryKey: ["books"] });
-      queryClient.invalidateQueries({ queryKey: ["users", CURRENT_USER_ID] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
 
