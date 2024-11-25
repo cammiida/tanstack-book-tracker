@@ -31,6 +31,10 @@ Så hva er Tanstack Query egentlig?
 
 ---
 
+<!--
+Ifølge nettsidene til TanStack Query så er det følgende
+ -->
+
 # Tanstack Query
 
 ## Powerful asynchronous state management
@@ -40,7 +44,7 @@ TanStack Query (FKA React Query) is often described as the missing data-fetching
 ---
 
 <!--
-Men vent nå litt. Før vi hopper videre må jeg ta en liten refresher på hva server og client state er.
+Men vent nå litt. "Server state"? Før vi hopper videre må jeg ta en liten refresher på hva server og client state er.
  -->
 
 ![bg left 50% 80%](https://media.giphy.com/media/tSI5rlnyCM10s/giphy.gif?cid=ecf05e47jb1jllvsbw7ub96voy1vjgsa0wsa3amm05s8727k&ep=v1_gifs_search&rid=giphy.gif&ct=g)
@@ -174,6 +178,8 @@ Ekstremt enkelt eksempel, men allerede flere problemer:
 
 # Tanstack Query
 
+![bg height:200px](images/react-query-logo.png)
+
 ---
 
 <!--
@@ -260,10 +266,15 @@ const {
 
 ---
 
+<!--S
+Siden Query Keys beskriver unikt dataen de henter bør de også inkludere alle variabler som query funksjonene dine trenger og som endrer seg.
+
+Query Keys er da avhengigheter for query funksjonene. Å legge til variabler som funksjonene dine trenger i nøklene gjør at når variablene endrer seg vil queryen automtisk refetche (med mindre du har data i cachen på den oppdaterte nøkkelen som ennå er fresh).
+ -->
+
 # Query Keys
 
 - Hvor data er lagret i cachen
-- Bruker man en nøkkel som allerede ligger i cachen, vil React Query hente dataen som ligger på denne nøkkelen (og refetche i bakgrunnen om den er stale)
 - Alt som trengs for en query skal i nøkkelen:
   - Filtre, søkestrenger, id'er, etc...
 
